@@ -3,6 +3,7 @@ import { useGame } from './hooks/useGame';
 import { GameBoard } from './components/GameBoard';
 import { Leaderboard } from './components/Leaderboard';
 import { StartScreen } from './components/StartScreen';
+import { GameOver } from './components/GameOver';
 import type { LeaderboardEntry } from './types/game';
 import './styles/App.css';
 
@@ -54,20 +55,13 @@ function App() {
             onGameOver={endGame}
           />
         ) : (
-          <div className="game-over">
-            <h2>Partida Finalizada</h2>
-            <p>Jugador: <strong>{playerName}</strong></p>
-            <p>Puntaje final: <strong>{score} pts</strong></p>
-            <p>Palabras válidas encadenadas: <strong>{words.length}</strong></p>
-            <div className="game-over-actions">
-              <button onClick={() => startGame(playerName)} className="btn btn-primary">
-                Jugar de Nuevo
-              </button>
-              <button onClick={resetGame} className="btn">
-                Volver al Menú
-              </button>
-            </div>
-          </div>
+          <GameOver
+            playerName={playerName}
+            score={score}
+            words={words}
+            onRestart={() => startGame(playerName)}
+            onResetToMenu={resetGame}
+          />
         )}
       </section>
     </main>
