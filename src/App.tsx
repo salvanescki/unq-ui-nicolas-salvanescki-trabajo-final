@@ -1,29 +1,29 @@
 import { useState } from 'react';
-import type { GameStatus, LeaderboardEntry } from './types/game';
+import { useGame } from './hooks/useGame';
 import { GameBoard } from './components/GameBoard';
 import { Leaderboard } from './components/Leaderboard';
 import { StartScreen } from './components/StartScreen';
+import type { LeaderboardEntry } from './types/game';
 
 function App() {
-  const [status, setStatus] = useState<GameStatus>('idle');
+  const {
+    status,
+    playerName,
+    words,
+    error,
+    score,
+    startGame,
+    endGame,
+    resetGame,
+    submitWord,
+  } = useGame();
+
   const [showLeaderboard, setShowLeaderboard] = useState<boolean>(false);
-  const [playerName, setPlayerName] = useState<string>('');
 
   // Mock leaderboard data for initial render
   const [leaderboardEntries] = useState<LeaderboardEntry[]>([
     { name: 'Jugador 1', score: 13, wordsCount: 3, date: new Date().toLocaleDateString() },
   ]);
-
-  const handleStartGame = (name: string) => {
-    setPlayerName(name);
-    setStatus('playing');
-    setShowLeaderboard(false);
-  };
-
-  const handleBackToMenu = () => {
-    setStatus('idle');
-    setPlayerName('');
-  };
 
   return (
     <main className="app-container">
@@ -37,22 +37,28 @@ function App() {
           <Leaderboard entries={leaderboardEntries} onClose={() => setShowLeaderboard(false)} />
         ) : status === 'idle' ? (
           <StartScreen
-            onStart={handleStartGame}
+            onStart={startGame}
             onShowLeaderboard={() => setShowLeaderboard(true)}
           />
         ) : status === 'playing' ? (
-          <GameBoard onGameOver={() => setStatus('gameover')} />
+          <GameBoard
+            words={words}
+            score={score}
+            error={error}
+            onSubmitWord={submitWord}
+            onGameOver={endGame}
+          />
         ) : (
           <div className="game-over">
-            <h2>Fin de la Partida (Simulado)</h2>
-            <p>Jugador: {playerName}</p>
-            <p>Puntaje final: 9 pts</p>
-            <p>Palabras válidas: 2</p>
+            <h2>Partida Finalizada</h2>
+            <p style={{ margin: '8px 0' }}>Jugador: <strong>{playerName}</strong></p>
+            <p style={{ margin: '8px 0' }}>Puntaje final: <strong>{score} pts</strong></p>
+            <p style={{ margin: '8px 0' }}>Palabras válidas encadenadas: <strong>{words.length}</strong></p>
             <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
-              <button onClick={() => handleStartGame(playerName)} className="btn">
+              <button onClick={() => startGame(playerName)} className="btn btn-primary">
                 Jugar de Nuevo
               </button>
-              <button onClick={handleBackToMenu} className="btn">
+              <button onClick={resetGame} className="btn">
                 Volver al Menú
               </button>
             </div>
