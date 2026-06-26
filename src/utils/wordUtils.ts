@@ -8,6 +8,21 @@ export function normalizeChar(char: string): string {
   return c;
 }
 
+export function normalizeWord(word: string): string {
+  return word
+    .split('')
+    .map(normalizeChar)
+    .join('');
+}
+
+export function isValidWordCharacters(word: string): boolean {
+  if (!word) return false;
+  // Allowed: lowercase/uppercase a-z, Spanish accents (áéíóúü), and ñ/Ñ.
+  // No whitespace, digits, or punctuation.
+  const spanishLettersRegex = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]+$/;
+  return spanishLettersRegex.test(word);
+}
+
 export function isValidChain(prevWord: string, nextWord: string): boolean {
   if (!prevWord || !nextWord) return false;
   const lastChar = prevWord[prevWord.length - 1];
