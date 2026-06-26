@@ -55,14 +55,14 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 
   const renderTimer = () => {
     if (words.length === 0) {
-      return <strong>{TURN_DURATION_SECONDS}s (Inicia al enviar)</strong>;
+      return <strong className="counter">{TURN_DURATION_SECONDS}s (Inicia al enviar)</strong>;
     }
     if (isSubmitting) {
-      return <strong style={{ color: 'var(--accent)' }}>{timeLeft}s (Validando...)</strong>;
+      return <strong className="counter timer-loading">{timeLeft}s (Validando...)</strong>;
     }
     const isLowTime = timeLeft <= 3;
     return (
-      <strong className="counter" style={{ color: isLowTime ? '#ef4444' : 'inherit' }}>
+      <strong className={`counter ${isLowTime ? 'timer-low' : ''}`}>
         {timeLeft}s
       </strong>
     );
