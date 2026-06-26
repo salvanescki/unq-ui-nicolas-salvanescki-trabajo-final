@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import type { WordEntry } from '../types/game';
 import { formatWordParts } from '../utils/wordFormatting';
 import './WordChainItem.css';
@@ -7,7 +7,7 @@ interface WordChainItemProps {
   entry: WordEntry;
 }
 
-export const WordChainItem: React.FC<WordChainItemProps> = ({ entry }) => {
+export const WordChainItem: FC<WordChainItemProps> = ({ entry }) => {
   const { first, middle, last } = formatWordParts(entry.word);
 
   return (

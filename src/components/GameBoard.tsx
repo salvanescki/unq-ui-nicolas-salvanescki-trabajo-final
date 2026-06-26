@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import type { FC, SubmitEventHandler } from 'react';
 import type { WordEntry, ValidationError } from '../types/game';
 import { TURN_DURATION_SECONDS } from '../types/game';
 import { ChainedWordsList } from './ChainedWordsList';
@@ -14,7 +15,7 @@ interface GameBoardProps {
   onGameOver: () => void;
 }
 
-export const GameBoard: React.FC<GameBoardProps> = ({
+export const GameBoard: FC<GameBoardProps> = ({
   words,
   score,
   error,
@@ -32,7 +33,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     }
   }, [isSubmitting]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const trimmed = inputWord.trim();
     if (!trimmed || isSubmitting) return;
@@ -120,9 +121,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
       </form>
 
       <div className="validation-feedback-container">
-        <p className={`error-message ${error ? 'visible' : 'hidden'}`}>
-          {error ? getErrorMessage(error) : '\u00A0'}
-        </p>
+        {error && <p className="error-message">{getErrorMessage(error)}</p>}
       </div>
 
       <ChainedWordsList words={words} />

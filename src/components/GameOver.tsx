@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import type { WordEntry } from '../types/game';
 import { ChainedWordsList } from './ChainedWordsList';
 import { useGameOverLeaderboard } from '../hooks/useGameOverLeaderboard';
@@ -13,7 +13,7 @@ interface GameOverProps {
   onResetToMenu: () => void;
 }
 
-export const GameOver: React.FC<GameOverProps> = ({
+export const GameOver: FC<GameOverProps> = ({
   playerName,
   score,
   words,

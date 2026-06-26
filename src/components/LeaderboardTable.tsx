@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import type { LeaderboardEntry } from '../types/game';
 import './Leaderboard.css';
 
@@ -7,7 +7,7 @@ interface LeaderboardTableProps {
   highlightSessionId?: string | null;
 }
 
-export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
+export const LeaderboardTable: FC<LeaderboardTableProps> = ({
   entries,
   highlightSessionId,
 }) => {
@@ -35,7 +35,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                 entry.sessionId === highlightSessionId;
 
               return (
-                <tr key={index} className={isHighlighted ? 'highlight-row' : ''}>
+                <tr key={entry.sessionId} className={isHighlighted ? 'highlight-row' : ''}>
                   <td>{index + 1}</td>
                   <td>{entry.name}</td>
                   <td>{entry.wordsCount}</td>

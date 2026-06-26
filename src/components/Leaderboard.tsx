@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import type { LeaderboardEntry } from '../types/game';
 import './Leaderboard.css';
 
@@ -7,7 +7,7 @@ interface LeaderboardProps {
   onClose: () => void;
 }
 
-export const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
+export const Leaderboard: FC<LeaderboardProps> = ({ entries, onClose }) => {
   return (
     <div className="leaderboard">
       <h2>Mejores Puntajes</h2>
@@ -26,7 +26,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) =>
           </thead>
           <tbody>
             {entries.map((entry, index) => (
-              <tr key={index}>
+              <tr key={entry.sessionId}>
                 <td>{index + 1}</td>
                 <td>{entry.name}</td>
                 <td>{entry.wordsCount}</td>

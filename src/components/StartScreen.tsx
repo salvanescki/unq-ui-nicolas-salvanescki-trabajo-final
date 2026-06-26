@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { FC, SubmitEventHandler } from 'react';
 import './StartScreen.css';
 
 interface StartScreenProps {
@@ -6,11 +7,11 @@ interface StartScreenProps {
   onShowLeaderboard: () => void;
 }
 
-export const StartScreen: React.FC<StartScreenProps> = ({ onStart, onShowLeaderboard }) => {
+export const StartScreen: FC<StartScreenProps> = ({ onStart, onShowLeaderboard }) => {
   const [nameInput, setNameInput] = useState<string>('');
   const [nameError, setNameError] = useState<string>('');
 
-  const handleNameSubmit = (e: React.FormEvent) => {
+  const handleNameSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const trimmedName = nameInput.trim();
     if (!trimmedName) {
