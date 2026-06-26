@@ -1,0 +1,44 @@
+/* App Screen specific layouts */
+
+.game-over {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.game-over p {
+  margin: var(--spacing-sm) 0;
+  font-size: 18px;
+}
+
+.game-over h2 {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.game-over-actions {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.game-over-actions .btn {
+  width: 100%;
+}
+
+/* Tablet and Desktop: >= 768px */
+@media (min-width: 768px) {
+  .game-over-actions {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+  }
+
+  .game-over-actions .btn {
+    width: auto;
+  }
+}
