@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { WordEntry, ValidationError } from '../types/game';
+import { TURN_DURATION_SECONDS } from '../types/game';
 import { ChainedWordsList } from './ChainedWordsList';
 
 interface GameBoardProps {
@@ -7,6 +8,7 @@ interface GameBoardProps {
   score: number;
   error: ValidationError;
   isSubmitting: boolean;
+  timeLeft: number;
   onSubmitWord: (word: string) => Promise<boolean>;
   onGameOver: () => void;
 }
@@ -16,6 +18,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   score,
   error,
   isSubmitting,
+  timeLeft,
   onSubmitWord,
   onGameOver,
 }) => {
@@ -49,6 +52,21 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     }
   };
 
+  const renderTimer = () => {
+    if (words.length === 0) {
+      return <strong>{TURN_DURATION_SECONDS}s (Inicia al enviar)</strong>;
+    }
+    if (isSubmitting) {
+      return <strong style={{ color: 'var(--accent)' }}>{timeLeft}s (Validando...)</strong>;
+    }
+    const isLowTime = timeLeft <= 3;
+    return (
+      <strong className="counter" style={{ color: isLowTime ? '#ef4444' : 'inherit' }}>
+        {timeLeft}s
+      </strong>
+    );
+  };
+
   // Determine the required starting letter for guidance
   const lastWord = words.length > 0 ? words[words.length - 1].word : '';
   const requiredLetter = lastWord ? lastWord[lastWord.length - 1].toUpperCase() : '';
@@ -59,7 +77,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
       <div className="game-stats">
         <div>
           <span>Tiempo restante: </span>
-          <strong>15s (Pausado)</strong>
+          {renderTimer()}
         </div>
         <div>
           <span>Puntaje: </span>

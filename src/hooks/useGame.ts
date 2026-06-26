@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import type { GameStatus, WordEntry, ValidationError } from '../types/game';
+import { useState, useEffect } from 'react';
+import { type GameStatus, type WordEntry, type ValidationError, TURN_DURATION_SECONDS } from '../types/game';
 import { calculateScore, getLocalValidationError } from '../utils/wordUtils';
 import { validateWordApi } from '../services/wordApi';
 
@@ -9,6 +9,30 @@ export function useGame() {
   const [words, setWords] = useState<WordEntry[]>([]);
   const [error, setError] = useState<ValidationError>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [timeLeft, setTimeLeft] = useState<number>(TURN_DURATION_SECONDS);
+
+  // Timer effect: counts down when playing, words have been started, and not currently validating
+  useEffect(() => {
+    if (status !== 'playing' || words.length === 0 || isSubmitting) {
+      return;
+    }
+
+    const timerId = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timerId);
+  }, [status, words.length, isSubmitting]);
+
+  // Transition to game over when timer expires
+  useEffect(() => {
+    if (status === 'playing' && timeLeft === 0) {
+      const timeoutId = setTimeout(() => {
+        setStatus('gameover');
+      }, 0);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [status, timeLeft]);
 
   const startGame = (name: string) => {
     setPlayerName(name);
@@ -16,6 +40,7 @@ export function useGame() {
     setError(null);
     setStatus('playing');
     setIsSubmitting(false);
+    setTimeLeft(TURN_DURATION_SECONDS);
   };
 
   const endGame = () => {
@@ -28,6 +53,7 @@ export function useGame() {
     setWords([]);
     setError(null);
     setIsSubmitting(false);
+    setTimeLeft(TURN_DURATION_SECONDS);
   };
 
   const submitWord = async (word: string): Promise<boolean> => {
@@ -59,6 +85,7 @@ export function useGame() {
       const wordScore = calculateScore(cleaned);
       const newEntry: WordEntry = { word: cleaned, score: wordScore };
       setWords((prev) => [...prev, newEntry]);
+      setTimeLeft(TURN_DURATION_SECONDS); // Reset timer to constant limit after a valid word
       setError(null);
       return true;
     } catch {
@@ -78,6 +105,7 @@ export function useGame() {
     error,
     score,
     isSubmitting,
+    timeLeft,
     startGame,
     endGame,
     resetGame,

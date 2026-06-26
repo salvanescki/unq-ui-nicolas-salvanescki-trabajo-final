@@ -1,5 +1,7 @@
 export type GameStatus = 'idle' | 'playing' | 'gameover';
 
+export const TURN_DURATION_SECONDS = 15;
+
 export interface WordEntry {
   word: string;
   score: number;

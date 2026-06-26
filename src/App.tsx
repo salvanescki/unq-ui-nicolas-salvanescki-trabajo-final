@@ -13,6 +13,7 @@ function App() {
     error,
     score,
     isSubmitting,
+    timeLeft,
     startGame,
     endGame,
     resetGame,
@@ -47,6 +48,7 @@ function App() {
             score={score}
             error={error}
             isSubmitting={isSubmitting}
+            timeLeft={timeLeft}
             onSubmitWord={submitWord}
             onGameOver={endGame}
           />
