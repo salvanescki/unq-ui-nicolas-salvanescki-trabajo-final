@@ -1,0 +1,46 @@
+.game-board {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-between;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+
+.game-stats div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-section {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.game-board-input-group {
+  flex: 1;
+  text-align: left;
+}
+
+.guidance-text {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.game-board-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}

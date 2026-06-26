@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { WordEntry, ValidationError } from '../types/game';
 import { TURN_DURATION_SECONDS } from '../types/game';
 import { ChainedWordsList } from './ChainedWordsList';
+import './GameBoard.css';
 
 interface GameBoardProps {
   words: WordEntry[];
@@ -86,9 +87,9 @@ export const GameBoard: React.FC<GameBoardProps> = ({
       </div>
 
       <form onSubmit={handleSubmit} className="input-section">
-        <div className="form-group" style={{ flex: 1, textAlign: 'left' }}>
+        <div className="form-group game-board-input-group">
           {requiredLetter && (
-            <p className="guidance-text" style={{ marginBottom: '8px', fontSize: '15px' }}>
+            <p className="guidance-text">
               La palabra debe empezar con la letra: <strong>{requiredLetter}</strong>
             </p>
           )}
@@ -106,7 +107,6 @@ export const GameBoard: React.FC<GameBoardProps> = ({
           type="submit"
           className="btn btn-primary"
           disabled={isSubmitting}
-          style={{ height: 'fit-content', marginTop: requiredLetter ? '27px' : '0px' }}
         >
           {isSubmitting ? 'Validando...' : 'Enviar'}
         </button>
@@ -114,7 +114,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 
       <ChainedWordsList words={words} />
 
-      <div style={{ marginTop: '20px' }}>
+      <div className="game-board-actions">
         <button onClick={onGameOver} className="btn-danger" disabled={isSubmitting}>
           Finalizar Partida
         </button>

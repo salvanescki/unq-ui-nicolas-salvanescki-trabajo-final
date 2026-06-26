@@ -1,5 +1,6 @@
 import React from 'react';
 import type { LeaderboardEntry } from '../types/game';
+import './Leaderboard.css';
 
 interface LeaderboardProps {
   entries: LeaderboardEntry[];

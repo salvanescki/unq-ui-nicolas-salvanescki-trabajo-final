@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './StartScreen.css';
 
 interface StartScreenProps {
   onStart: (name: string) => void;

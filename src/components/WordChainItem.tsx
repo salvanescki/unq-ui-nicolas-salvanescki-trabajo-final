@@ -1,6 +1,7 @@
 import React from 'react';
 import type { WordEntry } from '../types/game';
 import { formatWordParts } from '../utils/wordFormatting';
+import './WordChainItem.css';
 
 interface WordChainItemProps {
   entry: WordEntry;

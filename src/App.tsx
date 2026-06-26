@@ -4,6 +4,7 @@ import { GameBoard } from './components/GameBoard';
 import { Leaderboard } from './components/Leaderboard';
 import { StartScreen } from './components/StartScreen';
 import type { LeaderboardEntry } from './types/game';
+import './styles/App.css';
 
 function App() {
   const {
@@ -55,10 +56,10 @@ function App() {
         ) : (
           <div className="game-over">
             <h2>Partida Finalizada</h2>
-            <p style={{ margin: '8px 0' }}>Jugador: <strong>{playerName}</strong></p>
-            <p style={{ margin: '8px 0' }}>Puntaje final: <strong>{score} pts</strong></p>
-            <p style={{ margin: '8px 0' }}>Palabras válidas encadenadas: <strong>{words.length}</strong></p>
-            <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+            <p>Jugador: <strong>{playerName}</strong></p>
+            <p>Puntaje final: <strong>{score} pts</strong></p>
+            <p>Palabras válidas encadenadas: <strong>{words.length}</strong></p>
+            <div className="game-over-actions">
               <button onClick={() => startGame(playerName)} className="btn btn-primary">
                 Jugar de Nuevo
               </button>
