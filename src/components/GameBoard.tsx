@@ -6,7 +6,8 @@ interface GameBoardProps {
   words: WordEntry[];
   score: number;
   error: ValidationError;
-  onSubmitWord: (word: string) => boolean;
+  isSubmitting: boolean;
+  onSubmitWord: (word: string) => Promise<boolean>;
   onGameOver: () => void;
 }
 
@@ -14,17 +15,18 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   words,
   score,
   error,
+  isSubmitting,
   onSubmitWord,
   onGameOver,
 }) => {
   const [inputWord, setInputWord] = useState<string>('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = inputWord.trim();
-    if (!trimmed) return;
+    if (!trimmed || isSubmitting) return;
 
-    const success = onSubmitWord(trimmed);
+    const success = await onSubmitWord(trimmed);
     if (success) {
       setInputWord('');
     }
@@ -38,6 +40,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         return 'La palabra ya fue utilizada.';
       case 'not_exist':
         return 'La palabra no existe en el diccionario.';
+      case 'invalid_chars':
+        return 'La palabra solo puede contener letras en español (sin espacios, números ni signos).';
       case 'network_error':
         return 'Error de red. Por favor, intenta de nuevo.';
       default:
@@ -75,19 +79,25 @@ export const GameBoard: React.FC<GameBoardProps> = ({
             value={inputWord}
             onChange={(e) => setInputWord(e.target.value)}
             placeholder="Ingresa una palabra..."
+            disabled={isSubmitting}
             autoFocus
           />
           {error && <p className="error-message">{getErrorMessage(error)}</p>}
         </div>
-        <button type="submit" className="btn btn-primary" style={{ height: 'fit-content', marginTop: requiredLetter ? '27px' : '0px' }}>
-          Enviar
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={isSubmitting}
+          style={{ height: 'fit-content', marginTop: requiredLetter ? '27px' : '0px' }}
+        >
+          {isSubmitting ? 'Validando...' : 'Enviar'}
         </button>
       </form>
 
       <ChainedWordsList words={words} />
 
       <div style={{ marginTop: '20px' }}>
-        <button onClick={onGameOver} className="btn-danger">
+        <button onClick={onGameOver} className="btn-danger" disabled={isSubmitting}>
           Finalizar Partida
         </button>
       </div>

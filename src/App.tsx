@@ -12,6 +12,7 @@ function App() {
     words,
     error,
     score,
+    isSubmitting,
     startGame,
     endGame,
     resetGame,
@@ -45,6 +46,7 @@ function App() {
             words={words}
             score={score}
             error={error}
+            isSubmitting={isSubmitting}
             onSubmitWord={submitWord}
             onGameOver={endGame}
           />

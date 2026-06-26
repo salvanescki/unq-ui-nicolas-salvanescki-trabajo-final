@@ -1,3 +1,5 @@
+import type { WordEntry, ValidationError } from '../types/game';
+
 export function normalizeChar(char: string): string {
   const c = char.toLowerCase();
   if (['á', 'à', 'ä', 'â'].includes(c)) return 'a';
@@ -32,4 +34,33 @@ export function isValidChain(prevWord: string, nextWord: string): boolean {
 
 export function calculateScore(word: string): number {
   return word.length;
+}
+
+/**
+ * Validates a candidate word against all local rules (casing, duplicate usage, and chaining constraints).
+ * Returns ValidationError if a check fails, or null if all local rules are satisfied.
+ */
+export function getLocalValidationError(word: string, words: WordEntry[]): ValidationError {
+  const cleaned = word.trim().toLowerCase();
+
+  // 1. Validate allowed characters
+  if (!isValidWordCharacters(cleaned)) {
+    return 'invalid_chars';
+  }
+
+  // 2. Validate duplicate detection
+  const alreadyUsed = words.some((entry) => normalizeWord(entry.word) === normalizeWord(cleaned));
+  if (alreadyUsed) {
+    return 'already_used';
+  }
+
+  // 3. Validate chain rule
+  if (words.length > 0) {
+    const prevWord = words[words.length - 1].word;
+    if (!isValidChain(prevWord, cleaned)) {
+      return 'invalid_chain';
+    }
+  }
+
+  return null;
 }

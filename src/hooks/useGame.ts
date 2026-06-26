@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import type { GameStatus, WordEntry, ValidationError } from '../types/game';
-import { isValidChain, calculateScore } from '../utils/wordUtils';
+import { calculateScore, getLocalValidationError } from '../utils/wordUtils';
+import { validateWordApi } from '../services/wordApi';
 
 export function useGame() {
   const [status, setStatus] = useState<GameStatus>('idle');
   const [playerName, setPlayerName] = useState<string>('');
   const [words, setWords] = useState<WordEntry[]>([]);
   const [error, setError] = useState<ValidationError>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const startGame = (name: string) => {
     setPlayerName(name);
     setWords([]);
     setError(null);
     setStatus('playing');
+    setIsSubmitting(false);
   };
 
   const endGame = () => {
@@ -24,38 +27,46 @@ export function useGame() {
     setPlayerName('');
     setWords([]);
     setError(null);
+    setIsSubmitting(false);
   };
 
-  const submitWord = (word: string): boolean => {
+  const submitWord = async (word: string): Promise<boolean> => {
     const cleaned = word.trim().toLowerCase();
 
-    if (!cleaned) {
+    if (!cleaned || isSubmitting) {
       return false;
     }
 
-    if (words.length > 0) {
-      const prevWord = words[words.length - 1].word;
-
-      // 1. Check chain rule
-      if (!isValidChain(prevWord, cleaned)) {
-        setError('invalid_chain');
-        return false;
-      }
-
-      // 2. Check if already used
-      const alreadyUsed = words.some((entry) => entry.word.toLowerCase() === cleaned);
-      if (alreadyUsed) {
-        setError('already_used');
-        return false;
-      }
+    // 1. Perform all local validation rules first
+    const localError = getLocalValidationError(cleaned, words);
+    if (localError) {
+      setError(localError);
+      return false;
     }
 
-    // No API check for now, assume valid and add it
-    const wordScore = calculateScore(cleaned);
-    const newEntry: WordEntry = { word: cleaned, score: wordScore };
-    setWords((prev) => [...prev, newEntry]);
+    // 2. Clear any existing errors & call remote dictionary API validation
     setError(null);
-    return true;
+    setIsSubmitting(true);
+
+    try {
+      const exists = await validateWordApi(cleaned);
+      if (!exists) {
+        setError('not_exist');
+        return false;
+      }
+
+      // Word is fully valid! Add it to the chain
+      const wordScore = calculateScore(cleaned);
+      const newEntry: WordEntry = { word: cleaned, score: wordScore };
+      setWords((prev) => [...prev, newEntry]);
+      setError(null);
+      return true;
+    } catch {
+      setError('network_error');
+      return false;
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const score = words.reduce((acc, curr) => acc + curr.score, 0);
@@ -66,6 +77,7 @@ export function useGame() {
     words,
     error,
     score,
+    isSubmitting,
     startGame,
     endGame,
     resetGame,

@@ -5,7 +5,7 @@ export interface WordEntry {
   score: number;
 }
 
-export type ValidationError = 'not_exist' | 'already_used' | 'invalid_chain' | 'network_error' | null;
+export type ValidationError = 'not_exist' | 'already_used' | 'invalid_chain' | 'network_error' | 'invalid_chars' | null;
 
 export interface LeaderboardEntry {
   name: string;
