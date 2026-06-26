@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { WordEntry, ValidationError } from '../types/game';
 import { TURN_DURATION_SECONDS } from '../types/game';
 import { ChainedWordsList } from './ChainedWordsList';
@@ -24,6 +24,13 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   onGameOver,
 }) => {
   const [inputWord, setInputWord] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isSubmitting && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isSubmitting]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,13 +102,13 @@ export const GameBoard: React.FC<GameBoardProps> = ({
           )}
           <input
             type="text"
+            ref={inputRef}
             value={inputWord}
             onChange={(e) => setInputWord(e.target.value)}
             placeholder="Ingresa una palabra..."
             disabled={isSubmitting}
             autoFocus
           />
-          {error && <p className="error-message">{getErrorMessage(error)}</p>}
         </div>
         <button
           type="submit"
@@ -111,6 +118,12 @@ export const GameBoard: React.FC<GameBoardProps> = ({
           {isSubmitting ? 'Validando...' : 'Enviar'}
         </button>
       </form>
+
+      <div className="validation-feedback-container">
+        <p className={`error-message ${error ? 'visible' : 'hidden'}`}>
+          {error ? getErrorMessage(error) : '\u00A0'}
+        </p>
+      </div>
 
       <ChainedWordsList words={words} />
 

@@ -31,8 +31,7 @@ export const leaderboardService = {
         date,
         sessionId,
       }));
-    } catch (e) {
-      console.error('Error reading leaderboard from localStorage', e);
+    } catch {
       return [];
     }
   },
@@ -73,8 +72,7 @@ export const leaderboardService = {
         date,
         sessionId,
       }));
-    } catch (e) {
-      console.error('Error saving score to leaderboard', e);
+    } catch {
       return [];
     }
   },
@@ -82,8 +80,8 @@ export const leaderboardService = {
   clearLeaderboard(): void {
     try {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
-    } catch (e) {
-      console.error('Error clearing leaderboard', e);
+    } catch {
+      // Ignore errors silently
     }
   },
 };
