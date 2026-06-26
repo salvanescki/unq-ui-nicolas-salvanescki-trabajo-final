@@ -7,11 +7,14 @@
 
 .game-stats {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 16px 20px;
+  padding: 12px 16px;
+  gap: 12px;
   margin-bottom: 12px;
 }
 
@@ -23,8 +26,9 @@
 
 .input-section {
   display: flex;
+  flex-direction: column;
   gap: 12px;
-  align-items: flex-end;
+  align-items: stretch;
   width: 100%;
 }
 
@@ -42,5 +46,33 @@
 .game-board-actions {
   margin-top: 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.game-board-actions .btn-danger {
+  width: 100%;
+}
+
+/* Tablet and Desktop: >= 768px */
+@media (min-width: 768px) {
+  .game-stats {
+    padding: 16px 20px;
+  }
+
+  .input-section {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  .game-board-actions {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+  }
+
+  .game-board-actions .btn-danger {
+    width: auto;
+  }
 }

@@ -21,6 +21,24 @@
 .game-over-actions {
   margin-top: 24px;
   display: flex;
+  flex-direction: column;
   gap: 12px;
-  justify-content: center;
+  width: 100%;
+}
+
+.game-over-actions .btn {
+  width: 100%;
+}
+
+/* Tablet and Desktop: >= 768px */
+@media (min-width: 768px) {
+  .game-over-actions {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+  }
+
+  .game-over-actions .btn {
+    width: auto;
+  }
 }

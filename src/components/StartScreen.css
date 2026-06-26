@@ -11,7 +11,7 @@
   background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 20px;
+  padding: 16px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -40,7 +40,29 @@
 
 .button-group {
   display: flex;
+  flex-direction: column;
   gap: 12px;
-  justify-content: center;
   margin-top: 8px;
+  width: 100%;
+}
+
+.button-group .btn {
+  width: 100%;
+}
+
+/* Tablet and Desktop: >= 768px */
+@media (min-width: 768px) {
+  .rules-section {
+    padding: 20px;
+  }
+
+  .button-group {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+  }
+
+  .button-group .btn {
+    width: auto;
+  }
 }

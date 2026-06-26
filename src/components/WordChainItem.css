@@ -4,8 +4,8 @@
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 16px;
+  padding: 4px 10px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-h);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -28,4 +28,12 @@
   border-radius: 10px;
   padding: 2px 6px;
   margin-left: 6px;
+}
+
+/* Tablet and Desktop: >= 768px */
+@media (min-width: 768px) {
+  .chain-badge {
+    padding: 6px 14px;
+    font-size: 16px;
+  }
 }

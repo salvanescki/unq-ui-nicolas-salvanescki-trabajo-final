@@ -7,20 +7,24 @@
 }
 
 .leaderboard table {
+  display: block;
   width: 100%;
+  overflow-x: auto;
   border-collapse: collapse;
   margin-top: 10px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 8px;
-  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .leaderboard th,
 .leaderboard td {
-  padding: 12px 16px;
+  padding: 10px 8px;
   text-align: center;
   border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  font-size: 14px;
 }
 
 .leaderboard th {
@@ -49,3 +53,16 @@
   color: var(--text-h);
 }
 
+/* Tablet and Desktop: >= 768px */
+@media (min-width: 768px) {
+  .leaderboard table {
+    display: table;
+  }
+
+  .leaderboard th,
+  .leaderboard td {
+    padding: 12px 16px;
+    font-size: 16px;
+    white-space: normal;
+  }
+}
