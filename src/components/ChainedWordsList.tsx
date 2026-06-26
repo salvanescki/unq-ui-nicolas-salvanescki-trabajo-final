@@ -1,5 +1,7 @@
 import React from 'react';
 import type { WordEntry } from '../types/game';
+import { WordChainItem } from './WordChainItem';
+import './ChainedWordsList.css';
 
 interface ChainedWordsListProps {
   words: WordEntry[];
@@ -8,17 +10,18 @@ interface ChainedWordsListProps {
 export const ChainedWordsList: React.FC<ChainedWordsListProps> = ({ words }) => {
   return (
     <div className="chained-words-list">
-      <h3>Palabras Encadenadas ({words.length})</h3>
+      <h3>Cadena de Palabras ({words.length})</h3>
       {words.length === 0 ? (
-        <p>No hay palabras ingresadas aún.</p>
+        <p className="no-words">Ingresa la primera palabra para comenzar la cadena.</p>
       ) : (
-        <ul>
+        <div className="chain-container">
           {words.map((entry, index) => (
-            <li key={index}>
-              {entry.word} (+{entry.score} pts)
-            </li>
+            <React.Fragment key={index}>
+              {index > 0 && <span className="chain-arrow">➔</span>}
+              <WordChainItem entry={entry} />
+            </React.Fragment>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
