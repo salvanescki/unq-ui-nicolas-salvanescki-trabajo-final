@@ -14,4 +14,5 @@ export interface LeaderboardEntry {
   score: number;
   wordsCount: number;
   date: string;
+  sessionId: string;
 }

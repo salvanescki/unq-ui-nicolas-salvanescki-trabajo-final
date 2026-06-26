@@ -4,7 +4,7 @@ import { GameBoard } from './components/GameBoard';
 import { Leaderboard } from './components/Leaderboard';
 import { StartScreen } from './components/StartScreen';
 import { GameOver } from './components/GameOver';
-import type { LeaderboardEntry } from './types/game';
+import { leaderboardService } from './services/leaderboardService';
 import './styles/App.css';
 
 function App() {
@@ -20,14 +20,10 @@ function App() {
     endGame,
     resetGame,
     submitWord,
+    sessionId,
   } = useGame();
 
   const [showLeaderboard, setShowLeaderboard] = useState<boolean>(false);
-
-  // Mock leaderboard data for initial render
-  const [leaderboardEntries] = useState<LeaderboardEntry[]>([
-    { name: 'Jugador 1', score: 13, wordsCount: 3, date: new Date().toLocaleDateString() },
-  ]);
 
   return (
     <main className="app-container">
@@ -38,7 +34,10 @@ function App() {
 
       <section className="game-content">
         {showLeaderboard ? (
-          <Leaderboard entries={leaderboardEntries} onClose={() => setShowLeaderboard(false)} />
+          <Leaderboard
+            entries={leaderboardService.getLeaderboard()}
+            onClose={() => setShowLeaderboard(false)}
+          />
         ) : status === 'idle' ? (
           <StartScreen
             onStart={startGame}
@@ -59,6 +58,7 @@ function App() {
             playerName={playerName}
             score={score}
             words={words}
+            sessionId={sessionId}
             onRestart={() => startGame(playerName)}
             onResetToMenu={resetGame}
           />
