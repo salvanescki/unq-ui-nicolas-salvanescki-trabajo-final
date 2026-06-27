@@ -1,0 +1,96 @@
+.timer-ring-container {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: max-content;
+}
+
+.timer-ring-pulse {
+  animation: pulse-ring 0.9s ease-in-out infinite;
+}
+
+.timer-ring-svg {
+  transform: rotate(-90deg);
+}
+
+.timer-ring-bg {
+  stroke: var(--border);
+}
+
+.timer-ring-fg {
+  transition: stroke 300ms ease;
+}
+
+@keyframes timer-countdown {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: var(--timer-circumference);
+  }
+}
+
+/* Colors based on state */
+.timer-color-inactive {
+  stroke: var(--text);
+  opacity: 0.5;
+}
+
+.timer-color-success {
+  stroke: var(--success);
+}
+
+.timer-color-warning {
+  stroke: #eab308; /* Yellow warning color */
+}
+
+.timer-color-danger {
+  stroke: var(--danger);
+}
+
+.timer-ring-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.timer-ring-number {
+  font-family: var(--mono);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-h);
+  line-height: 1;
+}
+
+.timer-number-inactive {
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.timer-number-urgent {
+  color: var(--danger);
+}
+
+.timer-ring-label {
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}

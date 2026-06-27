@@ -29,7 +29,6 @@ function App() {
     <main className="app-container">
       <header>
         <h1>Palabras Encadenadas</h1>
-        <p>El juego de palabras encadenadas en español.</p>
       </header>
 
       <section className="game-content">
