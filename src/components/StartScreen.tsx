@@ -29,13 +29,10 @@ export const StartScreen: FC<StartScreenProps> = ({ onStart, onShowLeaderboard }
       <div className="rules-section">
         <h2>Reglas del Juego</h2>
         <ul>
-          <li>Ingresa palabras válidas en español para formar una cadena.</li>
-          <li>La primera palabra puede ser cualquiera. El tiempo empieza al ingresarla.</li>
-          <li>Cada nueva palabra debe comenzar con la última letra de la palabra anterior.</li>
-          <li>Las tildes y la distinción de mayúsculas/minúsculas no afectan el encadenamiento (ej: cas<strong>a</strong> {"->"} <strong>á</strong>rbol).</li>
-          <li>No puedes repetir palabras que ya hayas usado en la partida.</li>
-          <li>Cada letra de una palabra válida otorga 1 punto (ej: casa = 4 pts).</li>
-          <li>Tienes 15 segundos por turno. Cada palabra válida reinicia el tiempo.</li>
+          <li><strong>Encadenar:</strong> Cada palabra debe empezar con la última letra de la anterior (mayúsculas y tildes no importan; ej: cas<strong>a</strong> {"->"} <strong>á</strong>rbol).</li>
+          <li><strong>Sin repetir:</strong> No puedes usar palabras ya ingresadas en la partida.</li>
+          <li><strong>Puntaje:</strong> Sumas 1 punto por cada letra.</li>
+          <li><strong>Tiempo:</strong> Tienes 15 segundos por turno (el tiempo inicia al enviar la primera palabra).</li>
         </ul>
       </div>
 
