@@ -26,9 +26,18 @@ export const GameOver: FC<GameOverProps> = ({
   return (
     <div className="game-over">
       <h2>Partida Finalizada</h2>
-      <p>Jugador: <strong>{playerName}</strong></p>
-      <p>Puntaje final: <strong>{score} pts</strong></p>
-      <p>Palabras válidas encadenadas: <strong>{words.length}</strong></p>
+
+      <div className="game-over-summary">
+        <div className="summary-player">
+          Jugador: <strong>{playerName}</strong>
+        </div>
+        <div className="summary-stats-grid">
+          <div className="summary-stat-card">
+            <span className="summary-stat-label">Puntaje Final</span>
+            <strong className="summary-stat-value">{score} pts</strong>
+          </div>
+        </div>
+      </div>
 
       <ChainedWordsList words={words} />
 

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import type { FC, SubmitEventHandler } from 'react';
 import type { WordEntry, ValidationError } from '../types/game';
-import { TURN_DURATION_SECONDS } from '../types/game';
 import { ChainedWordsList } from './ChainedWordsList';
+import { TimerRing } from './TimerRing';
 import './GameBoard.css';
 
 interface GameBoardProps {
@@ -61,46 +61,33 @@ export const GameBoard: FC<GameBoardProps> = ({
     }
   };
 
-  const renderTimer = () => {
-    if (words.length === 0) {
-      return <strong className="counter">{TURN_DURATION_SECONDS}s (Inicia al enviar)</strong>;
-    }
-    if (isSubmitting) {
-      return <strong className="counter timer-loading">{timeLeft}s (Validando...)</strong>;
-    }
-    const isLowTime = timeLeft <= 3;
-    return (
-      <strong className={`counter ${isLowTime ? 'timer-low' : ''}`}>
-        {timeLeft}s
-      </strong>
-    );
-  };
-
   // Determine the required starting letter for guidance
   const lastWord = words.length > 0 ? words[words.length - 1].word : '';
   const requiredLetter = lastWord ? lastWord[lastWord.length - 1].toUpperCase() : '';
 
   return (
     <div className="game-board">
-      <h2>Partida en Curso</h2>
       <div className="game-stats">
-        <div>
-          <span>Tiempo restante: </span>
-          {renderTimer()}
+        <div className="timer-wrapper">
+          <TimerRing
+            remaining={timeLeft}
+            active={words.length > 0}
+            paused={isSubmitting}
+            resetKey={words.length}
+          />
         </div>
-        <div>
-          <span>Puntaje: </span>
-          <strong>{score} pts</strong>
+        <div className="next-letter-wrapper">
+          <span className="next-letter-label">Próxima Letra</span>
+          <strong className="next-letter-value">{requiredLetter || '—'}</strong>
+        </div>
+        <div className="score-wrapper">
+          <span className="score-label">Puntaje</span>
+          <strong className="score-value">{score} pts</strong>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="input-section">
         <div className="form-group game-board-input-group">
-          {requiredLetter && (
-            <p className="guidance-text">
-              La palabra debe empezar con la letra: <strong>{requiredLetter}</strong>
-            </p>
-          )}
           <input
             type="text"
             ref={inputRef}
