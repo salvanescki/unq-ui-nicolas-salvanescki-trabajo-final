@@ -8,14 +8,66 @@
   width: 100%;
 }
 
-.game-over p {
-  margin: var(--spacing-sm) 0;
-  font-size: 18px;
-}
-
 .game-over h2 {
   color: var(--danger);
   font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.game-over-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.summary-player {
+  font-size: 16px;
+  color: var(--text);
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.summary-player strong {
+  color: var(--text-h);
+  font-size: 18px;
+}
+
+.summary-stats-grid {
+  display: grid;
+  grid-template-cols: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.summary-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  gap: 4px;
+}
+
+.summary-stat-label {
+  font-size: 12px;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.summary-stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-h);
 }
 
 .game-over-actions {

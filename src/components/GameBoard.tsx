@@ -67,7 +67,6 @@ export const GameBoard: FC<GameBoardProps> = ({
 
   return (
     <div className="game-board">
-      <h2>Partida en Curso</h2>
       <div className="game-stats">
         <div className="timer-wrapper">
           <TimerRing
@@ -77,6 +76,10 @@ export const GameBoard: FC<GameBoardProps> = ({
             resetKey={words.length}
           />
         </div>
+        <div className="next-letter-wrapper">
+          <span className="next-letter-label">Próxima Letra</span>
+          <strong className="next-letter-value">{requiredLetter || '—'}</strong>
+        </div>
         <div className="score-wrapper">
           <span className="score-label">Puntaje</span>
           <strong className="score-value">{score} pts</strong>
@@ -85,11 +88,6 @@ export const GameBoard: FC<GameBoardProps> = ({
 
       <form onSubmit={handleSubmit} className="input-section">
         <div className="form-group game-board-input-group">
-          {requiredLetter && (
-            <p className="guidance-text">
-              La palabra debe empezar con la letra: <strong>{requiredLetter}</strong>
-            </p>
-          )}
           <input
             type="text"
             ref={inputRef}
