@@ -14,10 +14,12 @@
   border-spacing: 0;
   overflow: hidden;
   margin-top: 10px;
-  background: var(--bg);
+  background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: 8px;
   -webkit-overflow-scrolling: touch;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .leaderboard th,
